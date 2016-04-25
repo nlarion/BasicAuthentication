@@ -5,11 +5,7 @@
 
 @using System.Security.Claims
 
-<h2>Here is your list of tasks, @User.GetUserName()</h2>
-<hr />
-@Html.ActionLink("Create new", "Create")
-
-@model IEnumerable<ToDoListWithUsers.Models.Item>
+@model IEnumerable<BasicAuthentication.Models.Item>
 
 <h2>Here is your list of tasks, @User.GetUserName()</h2>
 <hr />
@@ -29,3 +25,4 @@ else
 }
 
 @Html.ActionLink("Create new", "Create")
+@Html.ActionLink("Return Home", "Index", "Account")

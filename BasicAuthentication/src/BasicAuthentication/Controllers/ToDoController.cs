@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
-using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using System.Security.Claims;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using BasicAuthentication.Models;
@@ -12,25 +14,20 @@ namespace BasicAuthentication.Controllers
     public class ToDoController : Controller
     {
         private readonly ApplicationDbContext _db;
+
         private readonly UserManager<ApplicationUser> _userManager;
-        public ToDoController(
-            UserManager<ApplicationUser> userManager,
-            ApplicationDbContext db
-        )
+
+        public ToDoController(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
             _userManager = userManager;
             _db = db;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
-            return View(_db.Items.Where(x => x.User.Id == currentUser.Id));
-        }
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(Item item)
         {
@@ -41,5 +38,11 @@ namespace BasicAuthentication.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
+
+            return View(_db.Items.Where(x => x.User.Id == currentUser.Id));
+        }
     }
 }
